@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.7" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+  <name>selinux</name>
+  <channel>pecl.php.net</channel>
+  <summary>SELinux binding for PHP script language</summary>
+  <description>
+    This extension provides a set of interfaces to communicate between
+    SELinux and PHP script language. It contains functions to get/set
+    security context of processes and other objects, to get/set system
+    booleans, to make a query for in-kernel security server and so on.
+  </description>
+  <lead>
+    <name>Mark Karpeles</name>
+    <user>magicaltux</user>
+    <email>magicaltux@php.net</email>
+    <active>yes</active>
+  </lead>
+  <date>2009-03-02</date>
+  <version>
+    <release>0.1</release><api>1</api>
+  </version>
+  <stability>
+    <release>devel</release><api>devel</api>
+  </stability>
+  <license uri="http://www.php.net/license/">PHP License</license>
+  <notes>
+    - currently, its status is 'devel'
+  </notes>
+  <contents>
+    <dir name="/">
+      <file name="README" role="doc"/>
+      <file name="LICENSE" role="doc"/>
+      <file name="config.m4" role="src"/>
+      <file name="selinux.c" role="src"/>
+      <file name="php_selinux.h" role="src"/>
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.2.0</min>
+      </php>
+      <pearinstaller>
+        <min>1.4.0</min>
+      </pearinstaller>
+      <os>
+	<name>linux</name>
+      </os>
+    </required>
+  </dependencies>
+  <providesextension>selinux</providesextension>
+  <extsrcrelease/>
+  <changelog>
+    <release>
+     <version><release>0.1</release><api>1</api></version>
+     <stability><release>devel</release><api>devel</api></stability>
+     <date>2009-03-02</date>
+     <notes>
+       - Initial SELinux binding for PHP script language
+     </notes>
+    </release>
+  </changelog>
+</package>
