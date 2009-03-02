@@ -1,0 +1,301 @@
+README: php-selinux package
+===========================
+
+The php-selinux package is an extension to the PHP Hypertext Preprocessor.
+It wraps the libselinux library and provides a set of interfaces to the
+PHP runtime engine.
+The libselinux is a set of application program interfaces towards in-kernel
+SELinux, contains get/set security context, communicate security server,
+translate between raw and readable format and so on.
+
+REFERENCE MANUAL
+================
+
+* Global SELinux state
+
+bool selinux_is_enabled(void)
+  It returns true if SELinux is running, or false if it is not.
+
+bool selinux_mls_is_enabled(void)
+  It returns true if SELinux us running in MLS more, or false if it is not.
+
+int selinux_getenforce(void)
+  It returns 0 if SELinux is running in permissive mode, 1 if it is running
+  in enforcing mode, and -1 on error.
+
+bool selinux_setenforce(int $mode)
+  It sets SELinux to enforcing mode if the value 1 is passed in, and sets it
+  to permissive mode if 0 is passed in. On success 0 is returned, on error -1
+  is returned.
+
+int selinux_policyvers(void)
+  It returns the version of the policy (a positive integer) on success, or -1
+  on error.
+
+* Get/Set security attributes of processes
+
+string selinux_getcon(void)
+  It retrieves the context of the current process, or false on error.
+
+bool selinux_setcon(string $context)
+  It sets the current security context of the process to a new value.
+  Note that use of this function requires that the entire application be
+  trusted to maintain any desired separation between the old and new security
+  contexts, unlike exec-based transitions performed via selinux_setexeccon().
+  When possible, decompose your applicaiton and use selinux_setexeccon() and
+  pcntl_exec() instead.
+
+string selinux_getpidcon(int $pid)
+  It returns the process context for the specified PID.
+
+string selinux_getprevcon(void)
+  It is same as getcon but gets the context before the last exec.
+
+string selinux_getexeccon(void)
+  It retrieves the context used for executing a new process, or false on
+  error. The returned value can be an empty string which means no exec
+  context has been explicitly set by the program (i.e. using the default
+  policy behavior).
+
+bool selinux_setexeccon(string $context)
+  It sets the context used for the next execve call. An empty string can
+  be passed to reset to the default policy behavior. The exec context is
+  automatically reset after the next execve(2), so a program doesn't need
+  to explicitly sanitize it upon startup.
+  This configured context can be applied prior to library functions that
+  internally perform an execve, e.g. execl, execv, popen, in order to set
+  an exec context for that operation.
+
+  Note: Signal handlers that perform a selinux_setexecon must take care to
+  save, reset, and restore the exec context to avoid unexpected behavior.
+
+string selinux_getfscreatecon(void)
+  It retrieves the context used for creating a new file system object, or
+  false on error. The returned value can be an empty string which means no
+  fscreate context has been explicitly set by the program (i.e. using the
+  default policy behavior).
+
+bool selinux_setfscreatecon(string $context)
+  It sets the context used for creating a new file system object. An empty
+  string can be passed to reset to the default policy behavior. The fscreate
+  context is automatically reset after the next execve(2), so a program
+  doesn't need to explicitly sanitize it upon startup.
+
+  This configured context can be applied prior to library functions that
+  internally perform an file creation, in order to set an file context on
+  the objects.
+
+  Note: Signal handlers that perform a selinux_setfscreate must take care
+  to save, reset, and restore the fscreate context to avoid unexpected
+  behavior.
+
+string selinux_getkeycreatecon(void)
+  It retrieves the context used for creating a new kernel keyring, or false
+  on error. The returned value can be an empty string which means no
+  keycreate context has been explicitly set by the program (i.e. using
+  the default policy behavior).
+
+bool selinux_setkeycreatecon(string $context)
+  It sets the context used for creating a new kernel keyring. An empty
+  string can be passed to reset to the default policy behavior.
+  The keycreate context is automatically reset after the next execve(2),
+  so a program doesn't need to explicitly sanitize it upon startup.
+
+  This configured context can be applied prior to library functions that
+  internally perform a keyring creation, in order to set a keyring context
+  on the objects.
+
+  Note: Signal handlers that perform a selinux_setkeycreate must take care
+  to save, reset, and restore the keycreate context to avoid unexpected
+  behavior.
+
+string selinux_getsockcreatecon(void)
+  It retrieves the context used for creating a new socket object, or false
+  on error. The returned value can be an empty string which means no
+  sockcreate context has been explicitly set by the program (i.e. using
+  the default policy behavior).
+
+bool selinux_setsockcreatecon(string $context)
+  It sets the context used for creating a new labeled network sockets.
+  An empty string can be passed to reset the default policy behavior.
+  The sockcreate context is automatically reset after the next execve(2),
+  so a program doesn't need to explicitly sanitize it upon startup.
+
+  This configured context can be applied prior to library functions that
+  internally perform a socket creation, in order to set a socket context
+  on the objects.
+
+  Note: Signal handlers that perform selinux_setsockcreate must take care
+  to save, reset, and restore the sockcreate context to avoid unexpected
+  behavior.
+
+* Get/Set file context API
+
+string selinux_getfilecon(string $path)
+  It retrieves the context associated with the given path in the file
+  system, or false on error.
+
+string selinux_lgetfilecon(string $path)
+  It is identical to selinux_getfilecon, except in the case of a symbolic
+  link, where the link itself is interrogated, not the file that it refers
+  to.
+
+string selinux_fgetfilecon(resource $stream)
+  It is identical to selinux_getfilecon, only the open file pointed to by
+  $stream (as returned by fopen()) is interrogated in place of path.
+
+bool selinux_setfilecon(string $path, string $context)
+  It sets the security context of the file system object and returns true,
+  or false on error.
+
+bool selinux_lsetfilecon(string $path, string $context)
+  It is identical to selinux_setfilecon, except in the case of a symbolic
+  link, where the link itself is interrogated, not the file that it refers
+  to.
+
+bool selinux_fsetfilecon(resource $stream, string $context)
+  It is identical to selinux_setfilecon, only the open file pointed to by
+  $stream (as returned by fopen())is interrogated in place of path.
+
+* Labeled Networking
+
+string selinux_getpeercon(resource $stream)
+  It retrieves context of peer socket which is given by $stream (opened by
+  stream_socket API).
+
+* Communication to in-kernel security policy
+
+array selinux_compute_av(string $scontext, string $tcontext, string $tclass)
+
+  It queries whether the policy permits the source context $scontext to
+  access the target context $tcontext via class $tclass with the requested
+  access vector. See the cron source for a usage example, and returns an
+  associative array which contains access vector decision, or false on error.
+
+  The returns array contains seqno and three sub-arrays (allowed, auditallow
+  and auditdeny) which have permission-names as associative index to show us
+  what permission is allowed, or not.
+
+    $ php -r '$scontext = "staff_u:staff_r:staff_t:s0";
+              $tcontext = "system_u:object_r:etc_t:s0";
+              $avd = selinux_compute_av($scontext, $tcontext, "file");
+              var_dump($avd["allowed"]);'
+    array(21) {
+      ["ioctl"]=>
+      bool(true)
+      ["read"]=>
+      bool(true)
+      ["write"]=>
+      bool(false)
+      ["create"]=>
+      bool(false)
+         :
+      ["execmod"]=>
+      bool(false)
+      ["open"]=>
+      bool(false)
+    }
+
+string selinux_compute_create(string $scontext, string $tcontext,
+                              string $tclass)
+  It is used to compute a context to use for labeling a new object in a
+  particular class based on a pair of security contexts.
+
+string selinux_compute_relabel(string $scontext, string $tcontext,
+                               string $tclass)
+  It is used to compute the new context to use when relabeling an object,
+  it is used in the pam_selinux.so source and the newrole source to determine
+  the correct label for the tty at login time, but can be used for other
+  things.
+
+string selinux_compute_member(string $scontext, string $tcontext,
+                              string $tclass)
+  It is used to compute the context to use when labeling a polyinstantiated
+  object instance.
+
+array selinux_compute_user(string $scontext, string $username)
+  It is used to determine the set of user contexts that can be reached from
+  a source context. Is mainly used by get_ordered_context_list.
+
+* Initial security context support
+
+string selinux_get_initial_context(string $name)
+  It is used to get the context of a kernel initial security identifier
+  specified by $name.
+
+* Sanity checks for security context
+
+bool selinux_check_context(string $context)
+  It returns true if SELinux is running and the $context is valid, otherwise
+  it returns false.
+
+string selinux_canonicalize_context(string $context)
+  It returns canonicalized security context if the $context is valid,
+  otherwise it returns false.
+
+* Booleans
+
+array selinux_get_boolean_names(void)
+  It returns a list of boolean names, currently supported by the loaded
+  policy.
+
+int selinux_get_boolean_pending(string $bool_name)
+  It returns pending value (0 or 1) for boolean specified by $bool_name,
+  or -1 on error.
+
+int selinux_get_boolean_active(string $bool_name)
+  It returns active value (0 or 1) for boolean specified by $bool_name,
+  or -1 on error.
+
+bool selinux_set_boolean(string $bool_name, bool $bool_value)
+  It sets the pending value ($bool_value) for boolean specified by $bool_name.
+
+bool selinux_commit_booleans(void)
+  It commit all pending values for the booleans.
+
+* Mcstrans support
+
+string selinux_trans_to_raw_context(string $context)
+  It performs context translation from the human-readable format
+  ("translated") to the internal system format ("raw"), and returns
+  the raw format string, or false on error.
+
+string selinux_raw_to_trans_context(string $context)
+  It performs context translation from the internal system format ("raw")
+  to the human-readable format ("translated"), and returns the human-readable
+  format string, or false on error.
+
+* selabel wrappers
+
+string selinux_file_label_lookup(string $pathname, int $mode
+                                 [, bool $validate [, bool $baseonly
+                                 [, string $subset [, string $specfile]]]])
+  It returns an expected security context for the given $pathname and $mode
+  based on the security policy configuration, or false on errors. We assume
+  the result of lstat is delivered as $mode. The optional $validate is used
+  to enable validation check for security contexts, and its default is false.
+  The optional $baseonly is used to ignore local configuration, and its
+  default is false. The optional $subset enables to restrict prefix of
+  target files, and its default is null which means no restriction.
+  The optional $specfile enables to specify own mapping, and its default
+  is apply system default.
+
+string selinux_media_label_lookup(string device [, bool validate
+                                  [, string specfile]])
+  It returns an expected security context for the given $device, such as
+  "cdrom" or "floppy". Optional arguments have same meanings to
+  selinux_file_label_lookup().
+
+* Configuration files
+
+string selinux_getenforcemode(void)
+  It returns the initial state on the system, configured
+  in /etc/selinux/config.
+
+string selinux_getpolicytype(void)
+  It returns the default policy type on the system, configured
+  in /etc/selinux/config.
+
+string selinux_policy_root(void)
+  It returns the directory path which stores the policy and context
+  configuration.
