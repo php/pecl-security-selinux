@@ -17,17 +17,14 @@
   </lead>
   <date>2009-03-03</date>
   <version>
-    <release>0.1.1</release><api>0.1.1</api>
+    <release>0.1.2</release><api>0.1.2</api>
   </version>
   <stability>
     <release>devel</release><api>devel</api>
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-    * The versioning policy of selinux package: x.y.z
-     - The "x" is incremented on significant changes in this package.
-     - The "y" is incremented on new APIs and new features.
-     - The "z" is incremented on bugfixes and other minor stuffs.
+    - The initial release of SELinux binding for PHP script language.
   </notes>
   <contents>
     <dir name="/">
@@ -57,11 +54,17 @@
   </extsrcrelease>
   <changelog>
     <release>
-     <version><release>0.1.1</release><api>0.1.1</api></version>
+      <!--
+	  * The versioning policy of selinux package: x.y.z
+	  - The "x" is incremented on significant changes in this package.
+	  - The "y" is incremented on new APIs and new features.
+	  - The "z" is incremented on bugfixes and other minor stuffs.
+	-->
+     <version><release>0.1.2</release><api>0.1.2</api></version>
      <stability><release>devel</release><api>devel</api></stability>
      <date>2009-03-03</date>
      <notes>
-       - Initial SELinux binding for PHP script language
+       - The initial release of SELinux binding for PHP script language.
      </notes>
     </release>
   </changelog>
