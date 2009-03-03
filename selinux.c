@@ -32,203 +32,163 @@
 /*
  * SELinux arginfo
  */
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_is_enabled, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_mls_is_enabled, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getenforce, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setenforce, 0)
 	ZEND_ARG_INFO(0, mode)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_policyvers, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getcon, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setcon, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getpidcon, 0)
 	ZEND_ARG_INFO(0, pid)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getprevcon, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getexeccon, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setexeccon, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getfscreatecon, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setfscreatecon, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getkeycreatecon, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setkeycreatecon, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getsockcreatecon, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setsockcreatecon, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getfilecon, 0)
 	ZEND_ARG_INFO(0, filename)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_lgetfilecon, 0)
 	ZEND_ARG_INFO(0, filename)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_fgetfilecon, 0)
 	ZEND_ARG_INFO(0, stream)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_setfilecon, 0)
 	ZEND_ARG_INFO(0, filename)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_lsetfilecon, 0)
 	ZEND_ARG_INFO(0, filename)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_fsetfilecon, 0)
 	ZEND_ARG_INFO(0, stream)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getpeercon, 0)
 	ZEND_ARG_INFO(0, stream)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_av, 0)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_create, 0)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_relabel, 0)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_member, 0)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_user, 0)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, username)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_get_initial_context, 0)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_check_context, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_canonicalize_context, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_get_boolean_names, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_get_boolean_pending, 0)
 	ZEND_ARG_INFO(0, bool_name)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_get_boolean_active, 0)
 	ZEND_ARG_INFO(0, bool_name)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_set_boolean, 0)
 	ZEND_ARG_INFO(0, bool_name)
 	ZEND_ARG_INFO(0, bool_value)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_commit_booleans, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_trans_to_raw_context, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_raw_to_trans_context, 0)
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_file_label_lookup, 0, 0, 2)
 	ZEND_ARG_INFO(0, pathname)
 	ZEND_ARG_INFO(0, mode)
@@ -238,22 +198,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_file_label_lookup, 0, 0, 2)
 	ZEND_ARG_INFO(0, specfile)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_media_label_lookup, 0, 0, 1)
 	ZEND_ARG_INFO(0, device_name)
 	ZEND_ARG_INFO(0, validate)
 	ZEND_ARG_INFO(0, specfile)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getenforcemode, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getpolicytype, 0)
 ZEND_END_ARG_INFO()
 
-static
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_policy_root, 0)
 ZEND_END_ARG_INFO()
 
