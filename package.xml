@@ -10,21 +10,24 @@
     booleans, to make a query for in-kernel security server and so on.
   </description>
   <lead>
-    <name>Mark Karpeles</name>
-    <user>magicaltux</user>
-    <email>magicaltux@php.net</email>
+    <name>KaiGai Kohei</name>
+    <user>kaigai</user>
+    <email>kaigai@php.net</email>
     <active>yes</active>
   </lead>
-  <date>2009-03-02</date>
+  <date>2009-03-03</date>
   <version>
-    <release>0.1</release><api>1</api>
+    <release>0.1.1</release><api>0.1.1</api>
   </version>
   <stability>
     <release>devel</release><api>devel</api>
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-    - currently, its status is 'devel'
+    * The versioning policy of selinux package: x.y.z
+     - The "x" is incremented on significant changes in this package.
+     - The "y" is incremented on new APIs and new features.
+     - The "z" is incremented on bugfixes and other minor stuffs.
   </notes>
   <contents>
     <dir name="/">
@@ -49,12 +52,14 @@
     </required>
   </dependencies>
   <providesextension>selinux</providesextension>
-  <extsrcrelease/>
+  <extsrcrelease>
+    <configureoption default="autodetect" name="enable-selinux" prompt="Enable SELinux?" />
+  </extsrcrelease>
   <changelog>
     <release>
-     <version><release>0.1</release><api>1</api></version>
+     <version><release>0.1.1</release><api>0.1.1</api></version>
      <stability><release>devel</release><api>devel</api></stability>
-     <date>2009-03-02</date>
+     <date>2009-03-03</date>
      <notes>
        - Initial SELinux binding for PHP script language
      </notes>
