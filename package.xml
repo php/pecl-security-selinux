@@ -15,16 +15,17 @@
     <email>kaigai@php.net</email>
     <active>yes</active>
   </lead>
-  <date>2009-03-12</date>
+  <date>2009-04-16</date>
   <version>
-    <release>0.2.1</release><api>0.2.1</api>
+    <release>0.3.1</release><api>0.3.1</api>
   </version>
   <stability>
     <release>devel</release><api>devel</api>
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-    - Specfile to build RPM package is added.
+    - The "permissive" tag was added to selinux_compute_av
+    - The selinux_deny_unknown() was added
   </notes>
   <contents>
     <dir name="/">
@@ -62,6 +63,15 @@
 	- The "y" is incremented on new APIs and new features.
 	- The "z" is incremented on bugfixes and other minor stuffs.
       -->
+    <release>
+      <version><release>0.3.1</release><api>0.3.1</api></version>
+      <stability><release>devel</release><api>devel</api></stability>
+      <date>2009-04-16</date>
+      <notes>
+	- The "permissive" tag was added to selinux_compute_av
+	- The selinux_deny_unknown() was added
+      </notes>
+    </release>
     <release>
       <version><release>0.2.1</release><api>0.2.1</api></version>
       <stability><release>devel</release><api>devel</api></stability>

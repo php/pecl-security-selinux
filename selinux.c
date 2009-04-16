@@ -48,6 +48,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_policyvers, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO(arginfo_selinux_deny_unknown, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getcon, 0)
 ZEND_END_ARG_INFO()
 
@@ -223,6 +226,7 @@ zend_function_entry selinux_functions[] = {
 	PHP_FE(selinux_getenforce,		arginfo_selinux_getenforce)
 	PHP_FE(selinux_setenforce,		arginfo_selinux_setenforce)
 	PHP_FE(selinux_policyvers,		arginfo_selinux_policyvers)
+	PHP_FE(selinux_deny_unknown,		arginfo_selinux_deny_unknown)
 
 	/*  wrappers for the /proc/pid/attr API */
 	PHP_FE(selinux_getcon,			arginfo_selinux_getcon)
@@ -373,6 +377,19 @@ PHP_FUNCTION(selinux_policyvers)
 	if (policyvers < 0)
 		RETURN_FALSE;
 	RETURN_LONG(policyvers);
+}
+/* }}} */
+
+/* {{{ proto int selinux_deny_unknown(void)
+   Returns the attitude for unknown classes/permissions */
+PHP_FUNCTION(selinux_deny_unknown)
+{
+	if (ZEND_NUM_ARGS() != 0)
+		ZEND_WRONG_PARAM_COUNT();
+
+	if (security_deny_unknown() > 0)
+		RETURN_TRUE;
+	RETURN_FALSE;
 }
 /* }}} */
 
@@ -779,6 +796,7 @@ PHP_FUNCTION(selinux_compute_av)
 	access_vector_t perm;
 	struct av_decision avd;
 	zval *allowed, *auditallow, *auditdeny;
+	int permissive = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sss",
 				  &scontext, &scontext_len,
@@ -787,8 +805,12 @@ PHP_FUNCTION(selinux_compute_av)
 		return;
 
 	tclass = string_to_security_class(tclass_name);
-	if (security_compute_av(scontext, tcontext, tclass, -1, &avd) < 0)
+	if (security_compute_av_flags(scontext, tcontext,
+				      tclass, -1, &avd) < 0)
 		RETURN_FALSE;
+
+	if (avd.flags & SELINUX_AVD_FLAGS_PERMISSIVE)
+	    permissive = 1;
 
 	MAKE_STD_ZVAL(allowed);
 	MAKE_STD_ZVAL(auditallow);
@@ -818,6 +840,7 @@ PHP_FUNCTION(selinux_compute_av)
 	add_assoc_zval(return_value, "auditallow", auditallow);
 	add_assoc_zval(return_value, "auditdeny", auditdeny);
 	add_assoc_long(return_value, "seqno", avd.seqno);
+	add_assoc_bool(return_value, "permissive", permissive);
 }
 /* }}} */
 

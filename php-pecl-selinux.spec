@@ -11,8 +11,8 @@ Group: Development/Languages
 URL: http://pecl.php.net/package/%{pecl_name}
 Source: http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildRequires: php-devel >= 5.2.0, php-pear, libselinux-devel >= 2.0.43
-Requires: php >= 5.2.0, libselinux >= 2.0.43
+BuildRequires: php-devel >= 5.2.0, php-pear, libselinux-devel >= 2.0.80
+Requires: php >= 5.2.0, libselinux >= 2.0.80
 Requires(post): %{__pecl}
 Requires(postun): %{__pecl}
 %if 0%{?php_zend_api}

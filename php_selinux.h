@@ -14,6 +14,7 @@ PHP_FUNCTION(selinux_mls_is_enabled);
 PHP_FUNCTION(selinux_getenforce);
 PHP_FUNCTION(selinux_setenforce);
 PHP_FUNCTION(selinux_policyvers);
+PHP_FUNCTION(selinux_deny_unknown);
 
 /*
  * Wrappers for the /proc/<pid>/attr API

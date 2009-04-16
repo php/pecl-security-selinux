@@ -32,6 +32,10 @@ int selinux_policyvers(void)
   It returns the version of the policy (a positive integer) on success, or -1
   on error.
 
+bool selinux_deny_unknown(void)
+  It returns true if SELinux handles unknown classes/permissions as 'denied',
+  or false elsewhere.
+
 * Get/Set security attributes of processes
 
 string selinux_getcon(void)
@@ -172,9 +176,11 @@ array selinux_compute_av(string $scontext, string $tcontext, string $tclass)
   access vector. See the cron source for a usage example, and returns an
   associative array which contains access vector decision, or false on error.
 
-  The returns array contains seqno and three sub-arrays (allowed, auditallow
-  and auditdeny) which have permission-names as associative index to show us
-  what permission is allowed, or not.
+  The returned associative array contains five keys ("allowed", "auditallow",
+  "auditdeny", "seqno" and "permissive"). The leading three are also associative
+  arrays which contains pairs of a permission name and bool value. The "seqno"
+  shows the generation of the working policy, and the "permissive" shows whether
+  we should handle the $scontext as permissive domain, or not.
 
     $ php -r '$scontext = "staff_u:staff_r:staff_t:s0";
               $tcontext = "system_u:object_r:etc_t:s0";
