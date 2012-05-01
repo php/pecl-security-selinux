@@ -1279,6 +1279,7 @@ PHP_FUNCTION(selinux_x_label_lookup)
 	}
 	RETURN_FALSE;
 }
+/* }}} */
 
 /* {{{ proto string selinux_db_label_lookup(string x_name, string x_type)
    Returns the expected security context for given device */
@@ -1334,6 +1335,7 @@ PHP_FUNCTION(selinux_db_label_lookup)
 	}
 	RETURN_FALSE;
 }
+/* }}} */
 
 /* {{{ proto string selinux_getenforcemode(void)
    Returns the initial state on the system, configured in /etc/selinux/config. */
