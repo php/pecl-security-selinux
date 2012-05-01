@@ -130,10 +130,11 @@ ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_av, 0)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_create, 0)
+ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_create, 0, 0, 3)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_relabel, 0)
@@ -205,6 +206,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_media_label_lookup, 0, 0, 1)
 	ZEND_ARG_INFO(0, device_name)
 	ZEND_ARG_INFO(0, validate)
 	ZEND_ARG_INFO(0, specfile)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO(arginfo_selinux_x_label_lookup, 0)
+	ZEND_ARG_INFO(0, x_key)
+	ZEND_ARG_INFO(0, x_type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO(arginfo_selinux_db_label_lookup, 0)
+	ZEND_ARG_INFO(0, db_key)
+	ZEND_ARG_INFO(0, db_type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_getenforcemode, 0)
@@ -282,6 +293,8 @@ zend_function_entry selinux_functions[] = {
 	/* selabel wrappers */
 	PHP_FE(selinux_file_label_lookup,	arginfo_selinux_file_label_lookup)
 	PHP_FE(selinux_media_label_lookup,	arginfo_selinux_media_label_lookup)
+	PHP_FE(selinux_x_label_lookup,		arginfo_selinux_x_label_lookup)
+	PHP_FE(selinux_db_label_lookup,		arginfo_selinux_db_label_lookup)
 
 	/* configuration files */
 	PHP_FE(selinux_getenforcemode,		arginfo_selinux_getenforcemode)
@@ -844,24 +857,28 @@ PHP_FUNCTION(selinux_compute_av)
 }
 /* }}} */
 
-/* {{{ proto string selinux_compute_create(string scon, string tcon, string tclass)
+/* {{{ proto string selinux_compute_create(string scon, string tcon, string tclass
+                                           [, string objname])
    Returns the context for a new object in a particular class and contexts. */
 PHP_FUNCTION(selinux_compute_create)
 {
-	char *scontext, *tcontext, *tclass_name;
-	int scontext_len, tcontext_len, tclass_len;
+	char *scontext, *tcontext, *tclass_name, *objname;
+	int scontext_len, tcontext_len, tclass_len, objname_len;
 	security_context_t context;
 	security_class_t tclass;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sss",
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sss|s",
 				  &scontext, &scontext_len,
 				  &tcontext, &tcontext_len,
-				  &tclass_name, &tclass_len) == FAILURE)
+				  &tclass_name, &tclass_len,
+				  &objname, &objname_len) == FAILURE)
 		return;
 
 	tclass = string_to_security_class(tclass_name);
-	if (security_compute_create(scontext, tcontext, tclass, &context) < 0)
+	if (security_compute_create_name(scontext, tcontext,
+					 tclass, objname, &context) < 0)
 		RETURN_FALSE;
+
 	RETVAL_STRING(context, 1);
 	freecon(context);
 }
@@ -1209,6 +1226,113 @@ PHP_FUNCTION(selinux_media_label_lookup)
 	selabel_close(hnd);
 	RETVAL_STRING(context, 1);
 	freecon(context);
+}
+
+/* {{{ proto string selinux_x_label_lookup(string x_key, string x_type)
+   Returns the expected security context for given device */
+PHP_FUNCTION(selinux_x_label_lookup)
+{
+	char   *x_key, *x_type;
+	int	x_key_len, x_type_len;
+	int	i;
+	static struct {
+		char   *type;
+		int	code;
+	} x_catalog[] = {
+		{ "property",		SELABEL_X_PROP },
+		{ "extension",		SELABEL_X_EXT },
+		{ "client",		SELABEL_X_CLIENT },
+		{ "event",		SELABEL_X_EVENT },
+		{ "selection",		SELABEL_X_SELN },
+		{ "poly_property",	SELABEL_X_POLYPROP },
+		{ "poly_selection",	SELABEL_X_POLYSELN },
+		{ NULL, -1 }
+	};
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss",
+				  &x_key,  &x_key_len,
+				  &x_type, &x_type_len) == FAILURE)
+		return;
+
+	for (i=0; x_catalog[i].type != NULL; i++)
+	{
+		security_context_t	context;
+		struct selabel_handle  *hnd;
+
+		if (strcmp(x_type, x_catalog[i].type) != 0)
+			continue;
+
+		hnd = selabel_open(SELABEL_CTX_X, NULL, 0);
+		if (!hnd)
+			RETURN_FALSE;
+
+		if (selabel_lookup(hnd, &context, x_key, x_catalog[i].code) < 0)
+		{
+			selabel_close(hnd);
+			RETURN_FALSE;
+		}
+		selabel_close(hnd);
+		RETVAL_STRING(context, 1);
+		freecon(context);
+
+		return;
+	}
+	RETURN_FALSE;
+}
+
+/* {{{ proto string selinux_db_label_lookup(string x_name, string x_type)
+   Returns the expected security context for given device */
+PHP_FUNCTION(selinux_db_label_lookup)
+{
+	char   *db_key, *db_type;
+	int	db_key_len, db_type_len;
+	int	i;
+	static struct {
+		char   *type;
+		int	code;
+	} db_catalog[] = {
+		{ "database",	SELABEL_DB_DATABASE },
+		{ "schema",	SELABEL_DB_SCHEMA },
+		{ "table",	SELABEL_DB_TABLE },
+		{ "column",	SELABEL_DB_COLUMN },
+		{ "sequence",	SELABEL_DB_SEQUENCE },
+		{ "view",	SELABEL_DB_VIEW },
+		{ "procedure",	SELABEL_DB_PROCEDURE },
+		{ "blob",	SELABEL_DB_BLOB },
+		{ "tuple",	SELABEL_DB_TUPLE },
+		{ "language",	SELABEL_DB_LANGUAGE },
+		{ NULL, -1 }
+	};
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss",
+				  &db_key,  &db_key_len,
+				  &db_type, &db_type_len) == FAILURE)
+		return;
+
+	for (i=0; db_catalog[i].type != NULL; i++)
+	{
+		security_context_t	context;
+		struct selabel_handle  *hnd;
+
+		if (strcmp(db_type, db_catalog[i].type) != 0)
+			continue;
+
+		hnd = selabel_open(SELABEL_CTX_DB, NULL, 0);
+		if (!hnd)
+			RETURN_FALSE;
+
+		if (selabel_lookup(hnd, &context, db_key, db_catalog[i].code) < 0)
+		{
+			selabel_close(hnd);
+			RETURN_FALSE;
+		}
+		selabel_close(hnd);
+		RETVAL_STRING(context, 1);
+		freecon(context);
+
+		return;
+	}
+	RETURN_FALSE;
 }
 
 /* {{{ proto string selinux_getenforcemode(void)
