@@ -203,9 +203,11 @@ array selinux_compute_av(string $scontext, string $tcontext, string $tclass)
     }
 
 string selinux_compute_create(string $scontext, string $tcontext,
-                              string $tclass)
+                              string $tclass [, string $object_name])
   It is used to compute a context to use for labeling a new object in a
   particular class based on a pair of security contexts.
+  The 4th argument is optional; that allows to give object name being
+  constructed.
 
 string selinux_compute_relabel(string $scontext, string $tcontext,
                                string $tclass)
@@ -286,11 +288,23 @@ string selinux_file_label_lookup(string $pathname, int $mode
   The optional $specfile enables to specify own mapping, and its default
   is apply system default.
 
-string selinux_media_label_lookup(string device [, bool validate
-                                  [, string specfile]])
+string selinux_media_label_lookup(string $device [, bool $validate
+                                  [, string $specfile]])
   It returns an expected security context for the given $device, such as
   "cdrom" or "floppy". Optional arguments have same meanings to
   selinux_file_label_lookup().
+
+string selinux_x_label_lookup(string $objname, string $objtype)
+  It returns an expected security context managed by SE-X towards the given
+  pair of $objname and $objtype.
+  The $objtype should be one of "property", "extension", "client", "event",
+  "selection", "poly_property" or "poly_selection".
+
+string selinux_db_label_lookup(string $objname, string $objtype)
+  It returns an expected security context managed by SE-PostgreSQL towards
+  the given pair of $objname and $objtype.
+  The $objtype should be one of "database", "schema", "table", "column",
+  "sequence", "view", "procedure", "blob", "tuple" or "language".
 
 * Configuration files
 

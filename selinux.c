@@ -130,7 +130,7 @@ ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_av, 0)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_create, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_compute_create, 0, 0, 3)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)

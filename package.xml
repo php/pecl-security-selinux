@@ -12,12 +12,12 @@
   <lead>
     <name>KaiGai Kohei</name>
     <user>kaigai</user>
-    <email>kaigai@php.net</email>
+    <email>kaigai@kaigai.gr.jp</email>
     <active>yes</active>
   </lead>
-  <date>2009-04-16</date>
+  <date>2012-05-03</date>
   <version>
-    <release>0.3.1</release><api>0.3.1</api>
+    <release>0.4.1</release><api>0.4.1</api>
   </version>
   <stability>
     <release>devel</release><api>devel</api>
@@ -63,6 +63,16 @@
 	- The "y" is incremented on new APIs and new features.
 	- The "z" is incremented on bugfixes and other minor stuffs.
       -->
+    <release>
+      <version><release>0.4.1</release><api>0.4.1</api></version>
+      <stability><release>devel</release><api>devel</api></stability>
+      <date>2012-05-03</date>
+      <notes>
+        - selinux_compute_create() allows to take 4th argument to give
+          an object name.
+        - selinux_x_label_lookup() and selinux_db_label_lookup() were added.
+      </notes>
+    </release>
     <release>
       <version><release>0.3.1</release><api>0.3.1</api></version>
       <stability><release>devel</release><api>devel</api></stability>
