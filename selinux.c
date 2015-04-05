@@ -365,7 +365,7 @@ PHP_FUNCTION(selinux_getenforce)
    Sets the state of SELinux enforcing/permissive mode */
 PHP_FUNCTION(selinux_setenforce)
 {
-	long mode;
+	zend_long mode;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
                                   "l", &mode) == FAILURE)
@@ -430,7 +430,7 @@ PHP_FUNCTION(selinux_getcon)
 PHP_FUNCTION(selinux_setcon)
 {
 	security_context_t context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &context, &length) == FAILURE)
@@ -450,7 +450,7 @@ PHP_FUNCTION(selinux_setcon)
 PHP_FUNCTION(selinux_getpidcon)
 {
 	security_context_t context;
-	long pid;
+	zend_long pid;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l",
 				  &pid) == FAILURE)
@@ -509,7 +509,7 @@ PHP_FUNCTION(selinux_getexeccon)
 PHP_FUNCTION(selinux_setexeccon)
 {
 	security_context_t context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &context, &length) == FAILURE)
@@ -548,7 +548,7 @@ PHP_FUNCTION(selinux_getfscreatecon)
 PHP_FUNCTION(selinux_setfscreatecon)
 {
 	char *context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &context, &length) == FAILURE)
@@ -587,7 +587,7 @@ PHP_FUNCTION(selinux_getkeycreatecon)
 PHP_FUNCTION(selinux_setkeycreatecon)
 {
 	char *context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &context, &length) == FAILURE)
@@ -626,7 +626,7 @@ PHP_FUNCTION(selinux_getsockcreatecon)
 PHP_FUNCTION(selinux_setsockcreatecon)
 {
 	security_context_t context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &context, &length) == FAILURE)
@@ -647,7 +647,7 @@ PHP_FUNCTION(selinux_getfilecon)
 {
 	security_context_t context;
 	char *filename;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &filename, &length) == FAILURE)
@@ -667,7 +667,7 @@ PHP_FUNCTION(selinux_lgetfilecon)
 {
 	security_context_t context;
 	char *filename;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
 				  &filename, &length) == FAILURE)
@@ -693,7 +693,7 @@ PHP_FUNCTION(selinux_fgetfilecon)
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 				  "z", &z) == FAILURE)
 		return;
-	php_stream_from_zval_no_verify(stream, &z);
+	_STREAM_ZVAL(stream, z);
 
 	if (!stream)
 		RETURN_FALSE;
@@ -715,7 +715,7 @@ PHP_FUNCTION(selinux_fgetfilecon)
 PHP_FUNCTION(selinux_setfilecon)
 {
 	char *filename, *context;
-	int filename_len, context_len;
+	strsize_t filename_len, context_len;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss",
 				  &filename, &filename_len,
@@ -733,7 +733,7 @@ PHP_FUNCTION(selinux_setfilecon)
 PHP_FUNCTION(selinux_lsetfilecon)
 {
 	char *filename, *context;
-	int filename_len, context_len;
+	strsize_t filename_len, context_len;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss",
 				  &filename, &filename_len,
@@ -753,13 +753,14 @@ PHP_FUNCTION(selinux_fsetfilecon)
 	zval *z;
 	php_stream *stream;
 	security_context_t context;
-	int fdesc, context_len;
+	int fdesc;
+	strsize_t context_len;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs",
 				  &z, &context, &context_len) == FAILURE)
 		return;
 
-	php_stream_from_zval_no_verify(stream, &z);
+	_STREAM_ZVAL(stream, z);
 	if (!stream)
 		RETURN_FALSE;
 
@@ -785,7 +786,7 @@ PHP_FUNCTION(selinux_getpeercon)
 				  "z", &z) == FAILURE)
 		return;
 
-	php_stream_from_zval_no_verify(stream, &z);
+	_STREAM_ZVAL(stream, z);
 	if (!stream)
 		RETURN_FALSE;
 
@@ -804,7 +805,7 @@ PHP_FUNCTION(selinux_getpeercon)
 PHP_FUNCTION(selinux_compute_av)
 {
 	char *scontext, *tcontext, *tclass_name;
-	int scontext_len, tcontext_len, tclass_len;
+	strsize_t scontext_len, tcontext_len, tclass_len;
 	security_class_t tclass;
 	access_vector_t perm;
 	struct av_decision avd;
@@ -870,7 +871,7 @@ PHP_FUNCTION(selinux_compute_av)
 PHP_FUNCTION(selinux_compute_create)
 {
 	char *scontext, *tcontext, *tclass_name, *objname;
-	int scontext_len, tcontext_len, tclass_len, objname_len;
+	strsize_t scontext_len, tcontext_len, tclass_len, objname_len;
 	security_context_t context;
 	security_class_t tclass;
 
@@ -896,7 +897,7 @@ PHP_FUNCTION(selinux_compute_create)
 PHP_FUNCTION(selinux_compute_relabel)
 {
 	char *scontext, *tcontext, *tclass_name;
-	int scontext_len, tcontext_len, tclass_len;
+	strsize_t scontext_len, tcontext_len, tclass_len;
 	security_context_t context;
 	security_class_t tclass;
 
@@ -919,7 +920,7 @@ PHP_FUNCTION(selinux_compute_relabel)
 PHP_FUNCTION(selinux_compute_member)
 {
 	char *scontext, *tcontext, *tclass_name;
-	int scontext_len, tcontext_len, tclass_len;
+	strsize_t scontext_len, tcontext_len, tclass_len;
 	security_context_t context;
 	security_class_t tclass;
 
@@ -942,7 +943,7 @@ PHP_FUNCTION(selinux_compute_member)
 PHP_FUNCTION(selinux_compute_user)
 {
 	char *scontext, *username;
-	int scontext_len, username_len;
+	strsize_t scontext_len, username_len;
 	security_context_t *contexts;
 	int i;
 
@@ -968,7 +969,7 @@ PHP_FUNCTION(selinux_compute_user)
 PHP_FUNCTION(selinux_get_initial_context)
 {
 	char *name;
-	int length;
+	strsize_t length;
 	security_context_t context;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -988,7 +989,7 @@ PHP_FUNCTION(selinux_get_initial_context)
 PHP_FUNCTION(selinux_check_context)
 {
 	char *context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 				  "s", &context, &length) == FAILURE)
@@ -1006,7 +1007,7 @@ PHP_FUNCTION(selinux_canonicalize_context)
 {
 	security_context_t canonicalized;
 	char *context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 				  "s", &context, &length) == FAILURE)
@@ -1047,7 +1048,7 @@ PHP_FUNCTION(selinux_get_boolean_names)
 PHP_FUNCTION(selinux_get_boolean_pending)
 {
 	char *bool_name;
-	int length;
+	strsize_t length;
 	long value;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
@@ -1064,7 +1065,7 @@ PHP_FUNCTION(selinux_get_boolean_pending)
 PHP_FUNCTION(selinux_get_boolean_active)
 {
 	char *bool_name;
-	int length;
+	strsize_t length;
 	long value;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s",
@@ -1081,7 +1082,7 @@ PHP_FUNCTION(selinux_get_boolean_active)
 PHP_FUNCTION(selinux_set_boolean)
 {
 	char *bool_name;
-	int length;
+	strsize_t length;
 	zend_bool new_value;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sb",
@@ -1113,7 +1114,7 @@ PHP_FUNCTION(selinux_trans_to_raw_context)
 {
 	security_context_t raw_context;
 	char *context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 				  "s", &context, &length) == FAILURE)
@@ -1132,7 +1133,7 @@ PHP_FUNCTION(selinux_raw_to_trans_context)
 {
 	security_context_t trans_context;
 	char *context;
-	int length;
+	strsize_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 				  "s", &context, &length) == FAILURE)
@@ -1158,7 +1159,8 @@ PHP_FUNCTION(selinux_file_label_lookup)
 	char *specfile = NULL;
 	zend_bool validate = 0;
 	zend_bool baseonly = 0;
-	int pathname_len, subset_len, specfile_len, mode;
+	strsize_t pathname_len, subset_len, specfile_len;
+	zend_long mode;
 	security_context_t context;
 	struct selabel_handle *hnd;
 	struct selinux_opt opts[4] = {
@@ -1185,7 +1187,7 @@ PHP_FUNCTION(selinux_file_label_lookup)
 	if (!hnd)
 		RETURN_FALSE;
 
-	if (selabel_lookup(hnd, &context, pathname, mode) < 0)
+	if (selabel_lookup(hnd, &context, pathname, (int)mode) < 0)
 	{
 		selabel_close(hnd);
 		RETURN_FALSE;
@@ -1203,7 +1205,7 @@ PHP_FUNCTION(selinux_media_label_lookup)
 	char *device;
 	char *specfile = NULL;
 	zend_bool validate = 0;
-	int device_len, specfile_len;
+	strsize_t device_len, specfile_len;
 	security_context_t context;
 	struct selabel_handle *hnd;
 	struct selinux_opt opts[2] = {
@@ -1240,7 +1242,7 @@ PHP_FUNCTION(selinux_media_label_lookup)
 PHP_FUNCTION(selinux_x_label_lookup)
 {
 	char   *x_key, *x_type;
-	int	x_key_len, x_type_len;
+	strsize_t	x_key_len, x_type_len;
 	int	i;
 	static struct {
 		char   *type;
@@ -1293,7 +1295,7 @@ PHP_FUNCTION(selinux_x_label_lookup)
 PHP_FUNCTION(selinux_db_label_lookup)
 {
 	char   *db_key, *db_type;
-	int	db_key_len, db_type_len;
+	strsize_t	db_key_len, db_type_len;
 	int	i;
 	static struct {
 		char   *type;

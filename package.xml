@@ -15,7 +15,7 @@
     <email>kaigai@kaigai.gr.jp</email>
     <active>yes</active>
   </lead>
-  <date>2012-05-03</date>
+  <date>2015-04-05</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
     <release>0.4.2dev</release>
@@ -26,8 +26,7 @@
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-    - The "permissive" tag was added to selinux_compute_av
-    - The selinux_deny_unknown() was added
+- PHP 7 compatibility (Remi)
   </notes>
   <contents>
     <dir name="/">
@@ -101,6 +100,21 @@
       <date>2009-03-03</date>
       <notes>
 	- The initial release of SELinux binding for PHP script language.
+      </notes>
+    </release>
+    <release>
+      <date>2012-05-03</date>
+      <version>
+        <release>0.4.1</release>
+        <api>0.4.1</api>
+      </version>
+      <stability>
+        <release>devel</release>
+		<api>devel</api>
+      </stability>
+      <notes>
+- The "permissive" tag was added to selinux_compute_av
+- The selinux_deny_unknown() was added
       </notes>
     </release>
   </changelog>
