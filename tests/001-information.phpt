@@ -3,7 +3,8 @@ Information functions
 --SKIPIF--
 <?php 
 if(!extension_loaded('selinux')) die('skip selinux extension not loaded');
- ?>
+if (selinux_getenforce() <0)     die('skip selinux is disabled');
+?>
 --FILE--
 <?php
 $functions = array(

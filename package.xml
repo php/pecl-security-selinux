@@ -43,6 +43,7 @@
       </file>
       <dir name="tests">
         <file role='test' name='001-information.phpt'/>
+        <file role='test' name='002-boolean.phpt'/>
       </dir>
     </dir>
   </contents>
