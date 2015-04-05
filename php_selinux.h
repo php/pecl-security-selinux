@@ -105,4 +105,13 @@ PHP_FUNCTION(selinux_getenforcemode);
 PHP_FUNCTION(selinux_getpolicytype);
 PHP_FUNCTION(selinux_policy_root);
 
+
+#if PHP_MAJOR_VERSION < 7
+#define _RETVAL_STRING(s)  RETVAL_STRING(s,1)
+#define _ADD_STRING(a,s)   add_next_index_string(a,s,1)
+#else
+#define _RETVAL_STRING(s)  RETVAL_STRING(s)
+#define _ADD_STRING(a,s)   add_next_index_string(a,s)
+#endif
+
 #endif	/* PHP_SELINUX_H */

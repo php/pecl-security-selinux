@@ -1,8 +1,8 @@
 /*
  +----------------------------------------------------------------------+
- | PHP Version 5                                                        |
+ | PHP Version 5, 7                                                     |
  +----------------------------------------------------------------------+
- | Copyright (c) 1997-2009 The PHP Group                                |
+ | Copyright (c) 1997-2015 The PHP Group                                |
  +----------------------------------------------------------------------+
  | This source file is subject to version 3.01 of the PHP license,      |
  | that is bundled with this package in the file LICENSE, and is        |
@@ -420,7 +420,7 @@ PHP_FUNCTION(selinux_getcon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -461,7 +461,7 @@ PHP_FUNCTION(selinux_getpidcon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -480,7 +480,7 @@ PHP_FUNCTION(selinux_getprevcon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -499,7 +499,7 @@ PHP_FUNCTION(selinux_getexeccon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -538,7 +538,7 @@ PHP_FUNCTION(selinux_getfscreatecon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -577,7 +577,7 @@ PHP_FUNCTION(selinux_getkeycreatecon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -616,7 +616,7 @@ PHP_FUNCTION(selinux_getsockcreatecon)
 
 	if (!context)
 		RETURN_EMPTY_STRING();
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -656,7 +656,7 @@ PHP_FUNCTION(selinux_getfilecon)
 	if (getfilecon(filename, &context) < 0)
 		RETURN_FALSE;
 
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -676,7 +676,7 @@ PHP_FUNCTION(selinux_lgetfilecon)
 	if (lgetfilecon(filename, &context) < 0)
 		RETURN_FALSE;
 
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -705,7 +705,7 @@ PHP_FUNCTION(selinux_fgetfilecon)
 	if (fgetfilecon(fdesc, &context) < 0)
 		RETURN_FALSE;
 
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -794,7 +794,7 @@ PHP_FUNCTION(selinux_getpeercon)
 		RETURN_FALSE;
 	if (getpeercon(sockfd, &context) < 0)
 		RETURN_FALSE;
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -808,8 +808,13 @@ PHP_FUNCTION(selinux_compute_av)
 	security_class_t tclass;
 	access_vector_t perm;
 	struct av_decision avd;
-	zval *allowed, *auditallow, *auditdeny;
 	int permissive = 0;
+#if PHP_MAJOR_VERSION < 7
+	zval *allowed, *auditallow, *auditdeny;
+#else
+	zval zallowed, zauditallow, zauditdeny;
+	zval *allowed=&zallowed, *auditallow=&zauditallow, *auditdeny=&zauditdeny;
+#endif
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sss",
 				  &scontext, &scontext_len,
@@ -825,9 +830,11 @@ PHP_FUNCTION(selinux_compute_av)
 	if (avd.flags & SELINUX_AVD_FLAGS_PERMISSIVE)
 	    permissive = 1;
 
+#if PHP_MAJOR_VERSION < 7
 	MAKE_STD_ZVAL(allowed);
 	MAKE_STD_ZVAL(auditallow);
 	MAKE_STD_ZVAL(auditdeny);
+#endif
 	array_init(allowed);
 	array_init(auditallow);
 	array_init(auditdeny);
@@ -879,7 +886,7 @@ PHP_FUNCTION(selinux_compute_create)
 					 tclass, objname, &context) < 0)
 		RETURN_FALSE;
 
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -902,7 +909,7 @@ PHP_FUNCTION(selinux_compute_relabel)
 	tclass = string_to_security_class(tclass_name);
 	if (security_compute_relabel(scontext, tcontext, tclass, &context) < 0)
 		RETURN_FALSE;
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -925,7 +932,7 @@ PHP_FUNCTION(selinux_compute_member)
 	tclass = string_to_security_class(tclass_name);
 	if (security_compute_member(scontext, tcontext, tclass, &context) < 0)
 		RETURN_FALSE;
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -950,7 +957,7 @@ PHP_FUNCTION(selinux_compute_user)
 	array_init(return_value);
 	for (i=0; contexts[i]; i++)
 	{
-		add_next_index_string(return_value, contexts[i], 1);
+		_ADD_STRING(return_value, contexts[i]);
 	}
 	freeconary(contexts);
 }
@@ -971,7 +978,7 @@ PHP_FUNCTION(selinux_get_initial_context)
 	if (security_get_initial_context(name, &context) < 0)
 		RETURN_FALSE;
 
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 /* }}} */
@@ -1008,8 +1015,8 @@ PHP_FUNCTION(selinux_canonicalize_context)
 	if (security_canonicalize_context(context, &canonicalized) < 0)
 		RETURN_FALSE;
 
-	RETVAL_STRING(canonicalized, 1);
-        freecon(canonicalized);
+	_RETVAL_STRING(canonicalized);
+	freecon(canonicalized);
 }
 /* }}} */
 
@@ -1028,7 +1035,7 @@ PHP_FUNCTION(selinux_get_boolean_names)
 
 	array_init(return_value);
 	for (i=0; i < length; i++) {
-		add_next_index_string(return_value, bool_names[i], 1);
+		_ADD_STRING(return_value, bool_names[i]);
 		free(bool_names[i]);
 	}
 	free(bool_names);
@@ -1114,7 +1121,7 @@ PHP_FUNCTION(selinux_trans_to_raw_context)
 
 	if (selinux_trans_to_raw_context(context, &raw_context) < 0 || !raw_context)
 		RETURN_FALSE;
-	RETVAL_STRING(raw_context, 1);
+	_RETVAL_STRING(raw_context);
 	freecon(raw_context);
 }
 /* }}} */
@@ -1133,7 +1140,7 @@ PHP_FUNCTION(selinux_raw_to_trans_context)
 
 	if (selinux_raw_to_trans_context(context, &trans_context) < 0)
 		RETURN_FALSE;
-	RETVAL_STRING(trans_context, 1);
+	_RETVAL_STRING(trans_context);
 	freecon(trans_context);
 }
 /* }}} */
@@ -1184,7 +1191,7 @@ PHP_FUNCTION(selinux_file_label_lookup)
 		RETURN_FALSE;
 	}
 	selabel_close(hnd);
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 
@@ -1224,7 +1231,7 @@ PHP_FUNCTION(selinux_media_label_lookup)
 		RETURN_FALSE;
 	}
 	selabel_close(hnd);
-	RETVAL_STRING(context, 1);
+	_RETVAL_STRING(context);
 	freecon(context);
 }
 
@@ -1272,7 +1279,7 @@ PHP_FUNCTION(selinux_x_label_lookup)
 			RETURN_FALSE;
 		}
 		selabel_close(hnd);
-		RETVAL_STRING(context, 1);
+		_RETVAL_STRING(context);
 		freecon(context);
 
 		return;
@@ -1328,7 +1335,7 @@ PHP_FUNCTION(selinux_db_label_lookup)
 			RETURN_FALSE;
 		}
 		selabel_close(hnd);
-		RETVAL_STRING(context, 1);
+		_RETVAL_STRING(context);
 		freecon(context);
 
 		return;
@@ -1349,11 +1356,11 @@ PHP_FUNCTION(selinux_getenforcemode)
 		RETURN_FALSE;
 
 	if (enforce > 0) {
-		RETVAL_STRING("enforcing", 1);
+		_RETVAL_STRING("enforcing");
 	} else if (enforce < 0) {
-		RETVAL_STRING("disabled", 1);
+		_RETVAL_STRING("disabled");
 	} else {
-		RETVAL_STRING("permissive", 1);
+		_RETVAL_STRING("permissive");
 	}
 }
 /* }}} */
@@ -1368,7 +1375,7 @@ PHP_FUNCTION(selinux_getpolicytype)
 		ZEND_WRONG_PARAM_COUNT();
 	if (selinux_getpolicytype(&policytype) < 0)
 		RETURN_FALSE;
-	RETVAL_STRING(policytype, 1);
+	_RETVAL_STRING(policytype);
 	free(policytype);
 }
 /* }}} */
@@ -1385,6 +1392,6 @@ PHP_FUNCTION(selinux_policy_root)
 	root = (char *) selinux_policy_root();
 	if (!root)
 		RETURN_FALSE;
-	RETVAL_STRING(root, 1);
+	_RETVAL_STRING(root);
 }
 /* }}} */
