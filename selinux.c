@@ -316,7 +316,7 @@ zend_module_entry selinux_module_entry = {
 	NULL,			/* request_startup_func */
 	NULL,			/* request_shutdown_func */
 	NULL,			/* info_func */
-	NO_VERSION_YET,
+	PHP_SELINUX_VERSION,
 	STANDARD_MODULE_PROPERTIES,
 };
 

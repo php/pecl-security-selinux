@@ -4,6 +4,9 @@
 extern zend_module_entry		selinux_module_entry;
 #define phpext_selinux_ptr		&selinux_module_entry
 
+#define PHP_SELINUX_VERSION "0.4.2dev"
+#define PHP_SELINUX_STATE   "devel"
+
 PHP_RSHUTDOWN_FUNCTION(selinux);
 
 /*
