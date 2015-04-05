@@ -18,7 +18,7 @@
   <date>2015-04-05</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.4.2dev</release>
+    <release>0.4.1dev</release>
     <api>0.4.1</api>
   </version>
   <stability>
@@ -26,7 +26,10 @@
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
+- The "permissive" tag was added to selinux_compute_av
+- The selinux_deny_unknown() was added
 - PHP 7 compatibility (Remi)
+- fix build woth libselinux 2.0 (RHEL-6)
   </notes>
   <contents>
     <dir name="/">
@@ -70,11 +73,13 @@
     <release>
       <version><release>0.4.1</release><api>0.4.1</api></version>
       <stability><release>devel</release><api>devel</api></stability>
-      <date>2012-05-03</date>
+      <date>2015-04-05</date>
       <notes>
         - selinux_compute_create() allows to take 4th argument to give
           an object name.
         - selinux_x_label_lookup() and selinux_db_label_lookup() were added.
+        - PHP 7 compatibility (Remi)
+        - fix build woth libselinux 2.0 (RHEL-6)
       </notes>
     </release>
     <release>
@@ -100,21 +105,6 @@
       <date>2009-03-03</date>
       <notes>
 	- The initial release of SELinux binding for PHP script language.
-      </notes>
-    </release>
-    <release>
-      <date>2012-05-03</date>
-      <version>
-        <release>0.4.1</release>
-        <api>0.4.1</api>
-      </version>
-      <stability>
-        <release>devel</release>
-		<api>devel</api>
-      </stability>
-      <notes>
-- The "permissive" tag was added to selinux_compute_av
-- The selinux_deny_unknown() was added
       </notes>
     </release>
   </changelog>

@@ -7,4 +7,6 @@ if test "$PHP_SELINUX" != "no"; then
                AC_DEFINE(HAVE_SELINUX,1, [Enable PHP/SELinux binding])
                PHP_ADD_LIBRARY_WITH_PATH(selinux),
                AC_MSG_ERROR("libselinux is not available hoge"))
+
+  PHP_CHECK_FUNC_LIB(security_compute_create_name, selinux)
 fi

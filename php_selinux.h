@@ -4,7 +4,7 @@
 extern zend_module_entry		selinux_module_entry;
 #define phpext_selinux_ptr		&selinux_module_entry
 
-#define PHP_SELINUX_VERSION "0.4.2dev"
+#define PHP_SELINUX_VERSION "0.4.1dev"
 #define PHP_SELINUX_STATE   "devel"
 
 PHP_RSHUTDOWN_FUNCTION(selinux);
@@ -59,7 +59,9 @@ PHP_FUNCTION(selinux_getpeercon);
  * security_compute_XXXX() wrappers
  */
 PHP_FUNCTION(selinux_compute_av);
+#ifdef HAVE_SECURITY_COMPUTE_CREATE_NAME
 PHP_FUNCTION(selinux_compute_create);
+#endif
 PHP_FUNCTION(selinux_compute_relabel);
 PHP_FUNCTION(selinux_compute_member);
 PHP_FUNCTION(selinux_compute_user);

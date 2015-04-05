@@ -130,12 +130,14 @@ ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_av, 0)
 	ZEND_ARG_INFO(0, tclass)
 ZEND_END_ARG_INFO()
 
+#ifdef HAVE_SECURITY_COMPUTE_CREATE_NAME
 ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_compute_create, 0, 0, 3)
 	ZEND_ARG_INFO(0, scontext)
 	ZEND_ARG_INFO(0, tcontext)
 	ZEND_ARG_INFO(0, tclass)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
+#endif
 
 ZEND_BEGIN_ARG_INFO(arginfo_selinux_compute_relabel, 0)
 	ZEND_ARG_INFO(0, scontext)
@@ -267,7 +269,9 @@ zend_function_entry selinux_functions[] = {
 
 	/* security_compute_XXXX() wrappers */
 	PHP_FE(selinux_compute_av,		arginfo_selinux_compute_av)
+#ifdef HAVE_SECURITY_COMPUTE_CREATE_NAME
 	PHP_FE(selinux_compute_create,		arginfo_selinux_compute_create)
+#endif
 	PHP_FE(selinux_compute_relabel,		arginfo_selinux_compute_relabel)
 	PHP_FE(selinux_compute_member,		arginfo_selinux_compute_member)
 	PHP_FE(selinux_compute_user,		arginfo_selinux_compute_user)
@@ -865,6 +869,7 @@ PHP_FUNCTION(selinux_compute_av)
 }
 /* }}} */
 
+#ifdef HAVE_SECURITY_COMPUTE_CREATE_NAME
 /* {{{ proto string selinux_compute_create(string scon, string tcon, string tclass
                                            [, string objname])
    Returns the context for a new object in a particular class and contexts. */
@@ -891,6 +896,7 @@ PHP_FUNCTION(selinux_compute_create)
 	freecon(context);
 }
 /* }}} */
+#endif
 
 /* {{{ proto string selinux_compute_relabel(string scon, string tcon, string tclass)
    Returns the context used when an object is relabeled. */
@@ -1310,7 +1316,9 @@ PHP_FUNCTION(selinux_db_label_lookup)
 		{ "procedure",	SELABEL_DB_PROCEDURE },
 		{ "blob",	SELABEL_DB_BLOB },
 		{ "tuple",	SELABEL_DB_TUPLE },
+#ifdef SELABEL_DB_LANGUAGE
 		{ "language",	SELABEL_DB_LANGUAGE },
+#endif
 		{ NULL, -1 }
 	};
 
