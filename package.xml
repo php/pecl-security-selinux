@@ -39,6 +39,9 @@
       <file name="php-pecl-selinux.spec" role="src">
 	<tasks:replace from="@PACKAGE_VERSION@" to="version" type="package-info" />
       </file>
+      <dir name="tests">
+        <file role='test' name='001-information.phpt'/>
+      </dir>
     </dir>
   </contents>
   <dependencies>
