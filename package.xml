@@ -10,19 +10,26 @@
     booleans, to make a query for in-kernel security server and so on.
   </description>
   <lead>
+    <name>Remi Collet</name>
+    <user>remi</user>
+    <email>remi@php.net</email>
+    <active>yes</active>
+  </lead>
+  <lead>
     <name>KaiGai Kohei</name>
     <user>kaigai</user>
     <email>kaigai@kaigai.gr.jp</email>
     <active>yes</active>
   </lead>
-  <date>2015-04-05</date>
+  <date>2015-05-24</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.4.1dev</release>
+    <release>0.4.1</release>
     <api>0.4.1</api>
   </version>
   <stability>
-    <release>devel</release><api>devel</api>
+    <release>beta</release>
+    <api>beta</api>
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
@@ -72,9 +79,13 @@
 	- The "z" is incremented on bugfixes and other minor stuffs.
       -->
     <release>
-      <version><release>0.4.1</release><api>0.4.1</api></version>
-      <stability><release>devel</release><api>devel</api></stability>
-      <date>2015-04-05</date>
+      <version><release>0.4.1</release>
+      <api>0.4.1</api></version>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <date>2015-05-24</date>
       <notes>
         - selinux_compute_create() allows to take 4th argument to give
           an object name.
