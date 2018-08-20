@@ -21,10 +21,10 @@
     <email>kaigai@kaigai.gr.jp</email>
     <active>yes</active>
   </lead>
-  <date>2015-05-24</date>
+  <date>2018-08-20</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.4.1</release>
+    <release>0.4.2</release>
     <api>0.4.1</api>
   </version>
   <stability>
@@ -33,7 +33,7 @@
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-- The "permissive" tag was added to selinux_compute_av
+- missing libselinux in link command
 - The selinux_deny_unknown() was added
 - PHP 7 compatibility (Remi)
 - fix build woth libselinux 2.0 (RHEL-6)
@@ -78,6 +78,24 @@
 	- The "y" is incremented on new APIs and new features.
 	- The "z" is incremented on bugfixes and other minor stuffs.
       -->
+    <release>
+      <date>2018-08-20</date>
+      <version>
+        <release>0.4.2</release>
+        <api>0.4.1</api>
+      </version>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <license uri="http://www.php.net/license/">PHP License</license>
+      <notes>
+        - missing libselinux in link command
+        - The selinux_deny_unknown() was added
+        - PHP 7 compatibility (Remi)
+        - fix build woth libselinux 2.0 (RHEL-6)
+      </notes>
+    </release>
     <release>
       <version><release>0.4.1</release>
       <api>0.4.1</api></version>
