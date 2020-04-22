@@ -24,7 +24,7 @@
   <date>2018-08-20</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.4.2</release>
+    <release>0.5.0dev</release>
     <api>0.4.1</api>
   </version>
   <stability>
@@ -33,10 +33,7 @@
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-- missing libselinux in link command
-- The selinux_deny_unknown() was added
-- PHP 7 compatibility (Remi)
-- fix build woth libselinux 2.0 (RHEL-6)
+-
   </notes>
   <contents>
     <dir name="/">
@@ -93,7 +90,7 @@
         - missing libselinux in link command
         - The selinux_deny_unknown() was added
         - PHP 7 compatibility (Remi)
-        - fix build woth libselinux 2.0 (RHEL-6)
+        - fix build with libselinux 2.0 (RHEL-6)
       </notes>
     </release>
     <release>
