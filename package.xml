@@ -21,15 +21,15 @@
     <email>kaigai@kaigai.gr.jp</email>
     <active>yes</active>
   </lead>
-  <date>2018-08-20</date>
+  <date>2020-04-22</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.5.0dev</release>
+    <release>0.5.0</release>
     <api>0.4.1</api>
   </version>
   <stability>
-    <release>beta</release>
-    <api>beta</api>
+    <release>stable</release>
+    <api>stable</api>
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
