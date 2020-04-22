@@ -107,18 +107,4 @@ PHP_FUNCTION(selinux_getenforcemode);
 PHP_FUNCTION(selinux_getpolicytype);
 PHP_FUNCTION(selinux_policy_root);
 
-
-#if PHP_MAJOR_VERSION < 7
-typedef long   zend_long;
-typedef int    strsize_t;
-#define _RETVAL_STRING(s)  RETVAL_STRING(s,1)
-#define _ADD_STRING(a,s)   add_next_index_string(a,s,1)
-#define _STREAM_ZVAL(s,z)  php_stream_from_zval_no_verify(stream, &z);
-#else
-typedef size_t strsize_t;
-#define _RETVAL_STRING(s)  RETVAL_STRING(s)
-#define _ADD_STRING(a,s)   add_next_index_string(a,s)
-#define _STREAM_ZVAL(s,z)  php_stream_from_zval_no_verify(stream, z);
-#endif
-
 #endif	/* PHP_SELINUX_H */
