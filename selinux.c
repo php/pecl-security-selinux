@@ -412,7 +412,7 @@ PHP_FUNCTION(selinux_deny_unknown)
    Returns the context of the current process. */
 PHP_FUNCTION(selinux_getcon)
 {
-	security_context_t context;
+	char *context;
 
 	if (ZEND_NUM_ARGS() != 0)
 		ZEND_WRONG_PARAM_COUNT();
@@ -431,7 +431,7 @@ PHP_FUNCTION(selinux_getcon)
    Sets the context of the current process. */
 PHP_FUNCTION(selinux_setcon)
 {
-	security_context_t context;
+	char *context;
 	size_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s",
@@ -451,7 +451,7 @@ PHP_FUNCTION(selinux_setcon)
    Returns the context of the process for the specified PID. */
 PHP_FUNCTION(selinux_getpidcon)
 {
-	security_context_t context;
+	char *context;
 	zend_long pid;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "l",
@@ -472,7 +472,7 @@ PHP_FUNCTION(selinux_getpidcon)
    Returns the context of the process before the last execve(2). */
 PHP_FUNCTION(selinux_getprevcon)
 {
-	security_context_t context;
+	char *context;
 
 	if (ZEND_NUM_ARGS() != 0)
 		ZEND_WRONG_PARAM_COUNT();
@@ -491,7 +491,7 @@ PHP_FUNCTION(selinux_getprevcon)
    Returns the context used for executing a new program. */
 PHP_FUNCTION(selinux_getexeccon)
 {
-	security_context_t context;
+	char *context;
 
 	if (ZEND_NUM_ARGS() != 0)
 		ZEND_WRONG_PARAM_COUNT();
@@ -510,7 +510,7 @@ PHP_FUNCTION(selinux_getexeccon)
    Sets the context used for executing a new program. */
 PHP_FUNCTION(selinux_setexeccon)
 {
-	security_context_t context;
+	char *context;
 	size_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s",
@@ -530,7 +530,7 @@ PHP_FUNCTION(selinux_setexeccon)
    Returns the context used for executing a new program. */
 PHP_FUNCTION(selinux_getfscreatecon)
 {
-	security_context_t context;
+	char *context;
 
 	if (ZEND_NUM_ARGS() != 0)
 		ZEND_WRONG_PARAM_COUNT();
@@ -569,7 +569,7 @@ PHP_FUNCTION(selinux_setfscreatecon)
    Returns the context used for creating a new kernel keyring. */
 PHP_FUNCTION(selinux_getkeycreatecon)
 {
-	security_context_t context;
+	char *context;
 
 	if (ZEND_NUM_ARGS() != 0)
 		ZEND_WRONG_PARAM_COUNT();
@@ -608,7 +608,7 @@ PHP_FUNCTION(selinux_setkeycreatecon)
    Returns the context used for creating a new socket object. */
 PHP_FUNCTION(selinux_getsockcreatecon)
 {
-	security_context_t context;
+	char *context;
 
 	if (ZEND_NUM_ARGS() != 0)
 		ZEND_WRONG_PARAM_COUNT();
@@ -627,7 +627,7 @@ PHP_FUNCTION(selinux_getsockcreatecon)
    Sets the context used for creating a new socket object. */
 PHP_FUNCTION(selinux_setsockcreatecon)
 {
-	security_context_t context;
+	char *context;
 	size_t length;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s",
@@ -647,7 +647,7 @@ PHP_FUNCTION(selinux_setsockcreatecon)
    Returns the context associated with the given filename. */
 PHP_FUNCTION(selinux_getfilecon)
 {
-	security_context_t context;
+	char *context;
 	char *filename;
 	size_t length;
 
@@ -667,7 +667,7 @@ PHP_FUNCTION(selinux_getfilecon)
    Identical to selinux_getfilecon, except in the case of a symbolic link. */
 PHP_FUNCTION(selinux_lgetfilecon)
 {
-	security_context_t context;
+	char *context;
 	char *filename;
 	size_t length;
 
@@ -689,7 +689,7 @@ PHP_FUNCTION(selinux_fgetfilecon)
 {
 	zval *z;
 	php_stream *stream;
-	security_context_t context;
+	char *context;
 	int fdesc;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(),
@@ -754,7 +754,7 @@ PHP_FUNCTION(selinux_fsetfilecon)
 {
 	zval *z;
 	php_stream *stream;
-	security_context_t context;
+	char *context;
 	int fdesc;
 	size_t context_len;
 
@@ -781,7 +781,7 @@ PHP_FUNCTION(selinux_getpeercon)
 {
 	zval *z;
 	php_stream *stream;
-	security_context_t context;
+	char *context;
 	int sockfd;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(),
@@ -866,7 +866,7 @@ PHP_FUNCTION(selinux_compute_create)
 {
 	char *scontext, *tcontext, *tclass_name, *objname;
 	size_t scontext_len, tcontext_len, tclass_len, objname_len;
-	security_context_t context;
+	char *context;
 	security_class_t tclass;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "sss|s",
@@ -893,7 +893,7 @@ PHP_FUNCTION(selinux_compute_relabel)
 {
 	char *scontext, *tcontext, *tclass_name;
 	size_t scontext_len, tcontext_len, tclass_len;
-	security_context_t context;
+	char *context;
 	security_class_t tclass;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "sss",
@@ -916,7 +916,7 @@ PHP_FUNCTION(selinux_compute_member)
 {
 	char *scontext, *tcontext, *tclass_name;
 	size_t scontext_len, tcontext_len, tclass_len;
-	security_context_t context;
+	char *context;
 	security_class_t tclass;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "sss",
@@ -939,7 +939,7 @@ PHP_FUNCTION(selinux_compute_user)
 {
 	char *scontext, *username;
 	size_t scontext_len, username_len;
-	security_context_t *contexts;
+	char **contexts;
 	int i;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss",
@@ -965,7 +965,7 @@ PHP_FUNCTION(selinux_get_initial_context)
 {
 	char *name;
 	size_t length;
-	security_context_t context;
+	char *context;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 				  "s", &name, &length) == FAILURE)
@@ -1000,7 +1000,7 @@ PHP_FUNCTION(selinux_check_context)
    Returns canonicalized context if the given one is valid. */
 PHP_FUNCTION(selinux_canonicalize_context)
 {
-	security_context_t canonicalized;
+	char *canonicalized;
 	char *context;
 	size_t length;
 
@@ -1107,7 +1107,7 @@ PHP_FUNCTION(selinux_commit_booleans)
    Translate a human-readable context into internal system format.*/
 PHP_FUNCTION(selinux_trans_to_raw_context)
 {
-	security_context_t raw_context;
+	char *raw_context;
 	char *context;
 	size_t length;
 
@@ -1126,7 +1126,7 @@ PHP_FUNCTION(selinux_trans_to_raw_context)
    Translate a human-readable context from internal system format. */
 PHP_FUNCTION(selinux_raw_to_trans_context)
 {
-	security_context_t trans_context;
+	char *trans_context;
 	char *context;
 	size_t length;
 
@@ -1156,7 +1156,7 @@ PHP_FUNCTION(selinux_file_label_lookup)
 	zend_bool baseonly = 0;
 	size_t pathname_len, subset_len, specfile_len;
 	zend_long mode;
-	security_context_t context;
+	char *context;
 	struct selabel_handle *hnd;
 	struct selinux_opt opts[4] = {
 		{ SELABEL_OPT_VALIDATE, NULL },
@@ -1201,7 +1201,7 @@ PHP_FUNCTION(selinux_media_label_lookup)
 	char *specfile = NULL;
 	zend_bool validate = 0;
 	size_t device_len, specfile_len;
-	security_context_t context;
+	char *context;
 	struct selabel_handle *hnd;
 	struct selinux_opt opts[2] = {
 		{ SELABEL_OPT_VALIDATE, NULL },
@@ -1260,7 +1260,7 @@ PHP_FUNCTION(selinux_x_label_lookup)
 
 	for (i=0; x_catalog[i].type != NULL; i++)
 	{
-		security_context_t	context;
+		char *context;
 		struct selabel_handle  *hnd;
 
 		if (strcmp(x_type, x_catalog[i].type) != 0)
@@ -1318,7 +1318,7 @@ PHP_FUNCTION(selinux_db_label_lookup)
 
 	for (i=0; db_catalog[i].type != NULL; i++)
 	{
-		security_context_t	context;
+		char *context;
 		struct selabel_handle  *hnd;
 
 		if (strcmp(db_type, db_catalog[i].type) != 0)
