@@ -24,7 +24,7 @@
   <date>2021-12-23</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.6.0</release>
+    <release>0.6.1dev</release>
     <api>0.6.0</api>
   </version>
   <stability>
@@ -33,7 +33,7 @@
   </stability>
   <license uri="http://www.php.net/license/">PHP License</license>
   <notes>
-- add type hinting with PHP 8
+-
   </notes>
   <contents>
     <dir name="/">
@@ -75,6 +75,21 @@
 	- The "y" is incremented on new APIs and new features.
 	- The "z" is incremented on bugfixes and other minor stuffs.
       -->
+    <release>
+      <date>2021-12-23</date>
+      <version>
+        <release>0.6.0</release>
+        <api>0.6.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.php.net/license/">PHP License</license>
+      <notes>
+        - add type hinting with PHP 8
+      </notes>
+    </release>
     <release>
       <date>2020-04-22</date>
       <version>
