@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 87ad0d2b3fea5732ff120f3e3fc8101507288a6d */
+ * Stub hash: 25241063e6492ceecb42e7893fb922befbbfaf4d */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_selinux_is_enabled, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -82,7 +82,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_selinux_compute_create, 0, 3, MA
 	ZEND_ARG_TYPE_INFO(0, scontext, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tcontext, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tclass, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 #endif
 
@@ -134,14 +134,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_selinux_file_label_lookup, 0, 2,
 	ZEND_ARG_TYPE_INFO(0, mode, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, validate, _IS_BOOL, 0, "false")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, baseonly, _IS_BOOL, 0, "false")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, subset, IS_STRING, 0, "null")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, specfile, IS_STRING, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, subset, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, specfile, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_selinux_media_label_lookup, 0, 1, MAY_BE_STRING|MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, device_name, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, validate, _IS_BOOL, 0, "false")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, specfile, IS_STRING, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, specfile, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_selinux_x_label_lookup, 0, 2, MAY_BE_STRING|MAY_BE_FALSE)
@@ -159,7 +159,6 @@ ZEND_END_ARG_INFO()
 #define arginfo_selinux_getpolicytype arginfo_selinux_getcon
 
 #define arginfo_selinux_policy_root arginfo_selinux_getcon
-
 
 ZEND_FUNCTION(selinux_is_enabled);
 ZEND_FUNCTION(selinux_mls_is_enabled);
@@ -210,7 +209,6 @@ ZEND_FUNCTION(selinux_db_label_lookup);
 ZEND_FUNCTION(selinux_getenforcemode);
 ZEND_FUNCTION(selinux_getpolicytype);
 ZEND_FUNCTION(selinux_policy_root);
-
 
 static const zend_function_entry ext_functions[] = {
 	ZEND_FE(selinux_is_enabled, arginfo_selinux_is_enabled)

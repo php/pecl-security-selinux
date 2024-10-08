@@ -50,7 +50,7 @@ function selinux_getpeercon($stream): string|false {}
 /* security_compute_XXXX() wrappers */
 function selinux_compute_av(string $scontext, string $tcontext, string $tclass): array|false {}
 #ifdef HAVE_SECURITY_COMPUTE_CREATE_NAME
-function selinux_compute_create(string $scontext, string $tcontext, string $tclass, string $name=null): string|false {}
+function selinux_compute_create(string $scontext, string $tcontext, string $tclass, ?string $name=null): string|false {}
 #endif
 function selinux_compute_relabel(string $scontext, string $tcontext, string $tclass): string|false {}
 function selinux_compute_member(string $scontext, string $tcontext, string $tclass): string|false {}
@@ -75,8 +75,8 @@ function selinux_trans_to_raw_context(string $context): string|false {}
 function selinux_raw_to_trans_context(string $context): string|false {}
 
 /* selabel wrappers */
-function selinux_file_label_lookup(string $pathname, int $mode, bool $validate=false, bool $baseonly=false, string $subset=null, string $specfile=null): string|false {}
-function selinux_media_label_lookup(string $device_name, bool $validate=false, string $specfile=null): string|false {}
+function selinux_file_label_lookup(string $pathname, int $mode, bool $validate=false, bool $baseonly=false, ?string $subset=null, ?string $specfile=null): string|false {}
+function selinux_media_label_lookup(string $device_name, bool $validate=false, ?string $specfile=null): string|false {}
 function selinux_x_label_lookup(string $x_key, string $x_type): string|false {}
 function selinux_db_label_lookup(string $db_key, string $db_type): string|false {}
 

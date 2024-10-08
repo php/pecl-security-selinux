@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 87ad0d2b3fea5732ff120f3e3fc8101507288a6d */
+ * Stub hash: 25241063e6492ceecb42e7893fb922befbbfaf4d */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_selinux_is_enabled, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -150,7 +150,6 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_selinux_policy_root arginfo_selinux_is_enabled
 
-
 ZEND_FUNCTION(selinux_is_enabled);
 ZEND_FUNCTION(selinux_mls_is_enabled);
 ZEND_FUNCTION(selinux_getenforce);
@@ -200,7 +199,6 @@ ZEND_FUNCTION(selinux_db_label_lookup);
 ZEND_FUNCTION(selinux_getenforcemode);
 ZEND_FUNCTION(selinux_getpolicytype);
 ZEND_FUNCTION(selinux_policy_root);
-
 
 static const zend_function_entry ext_functions[] = {
 	ZEND_FE(selinux_is_enabled, arginfo_selinux_is_enabled)
