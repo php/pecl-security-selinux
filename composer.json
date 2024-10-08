@@ -1,0 +1,13 @@
+{
+    "name": "pecl/selinux",
+    "type": "php-ext",
+    "license": "PHP-3.01",
+    "description": "SELinux binding for PHP language",
+    "require": {
+        "php": ">= 7.0.0"
+    },
+    "php-ext": {
+        "extension-name": "selinux",
+        "configure-options": []
+    }
+}
