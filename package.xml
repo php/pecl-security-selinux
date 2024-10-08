@@ -2,7 +2,7 @@
 <package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.7" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
   <name>selinux</name>
   <channel>pecl.php.net</channel>
-  <summary>SELinux binding for PHP script language</summary>
+  <summary>SELinux binding for PHP language</summary>
   <description>
     This extension provides a set of interfaces to communicate between
     SELinux and PHP script language. It contains functions to get/set
@@ -21,19 +21,19 @@
     <email>kaigai@kaigai.gr.jp</email>
     <active>yes</active>
   </lead>
-  <date>2021-12-23</date>
+  <date>2024-10-08</date>
   <version>
     <!-- Remember to update PHP_SELINUX_VERSION in php-selinux.h -->
-    <release>0.6.1dev</release>
+    <release>0.6.1</release>
     <api>0.6.0</api>
   </version>
   <stability>
     <release>stable</release>
     <api>stable</api>
   </stability>
-  <license uri="http://www.php.net/license/">PHP License</license>
+  <license uri="https://www.php.net/license/3_01.txt" filesource="LICENSE">PHP-3.01</license>
   <notes>
--
+- fix implicit nullable parameters
   </notes>
   <contents>
     <dir name="/">
